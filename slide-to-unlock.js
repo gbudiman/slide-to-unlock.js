@@ -27,7 +27,8 @@ var SlideToUnlock = function() {
       style_bg_idle: h.style_bg_idle || '#eee',
       style_color_idle: h.style_color_idle || '#333',
       style_bg_disabled: h.style_bg_disabled || '#ccc',
-      style_color_disabled: h.style_color_disabled || '#888'
+      style_color_disabled: h.style_color_disabled || '#888',
+      start_disabled: h.start_disabled || false
     }
 
     var s = '<div class="slide-to-unlock-parent" '
@@ -96,6 +97,24 @@ var SlideToUnlock = function() {
           resolve(true)
         }
       })
+    }
+
+    $(id)[0].adjust_slider_position = function() {
+      var $this = $(this)
+      var slider = $this.find('.slideable')
+      var margin_left = parseInt(slider.css('margin-left'))
+
+      if (margin_left > 1) {
+        slider.css('margin-left', ($this.width() - slider.width() - 2) + 'px')
+      }
+    }
+
+    $(window).on('resize', function() {
+      $(id)[0].adjust_slider_position()
+    })
+
+    if (settings.start_disabled) {
+      $(id)[0].slider_enable(false)
     }
 
     return $(id)[0]
