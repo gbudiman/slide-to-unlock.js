@@ -1,5 +1,8 @@
 # slide-to-unlock.js
-Slide To Unlock with Promise
+Slide To Unlock with Promise. A perfect alternative to Action-Confirm or Action-Undo design pattern combining improved user experience with ease-of-implementation.
+
+**What's with the Promise?**
+SlideToUnlock keeps the asynchronous nature of Javascript in mind. State transitions are triggered whenever a Promise object is fulfilled (or rejected).
 
 # Usage
 ## Including
@@ -57,6 +60,9 @@ var slider_1 = SlideToUnlock.init('#slider-1', {
 ```
 
 Full list of options:
+| Parameter | Default | Description |
+| --------- | ------- | ----------- |
+
 - ```height: h.height || 64,```
 - ```font_size: (h.font_size || 24)```
 - ```margin_top: (h.margin_top || -48)```
@@ -103,5 +109,5 @@ $(slider).on('slider-slid', function(event, data) {
 
 Full list of events:
 - ```slider-hit```, parameters: ```None```. Triggered when the slider hits the right-edge
-- ```slider-slid```, parameters: ```data```. Triggered once func_slid() is fulfilled
-- ```slider-done```, parameters: ```data```. Triggered once func_done() is fulfulled
+- ```slider-slid```, parameters: ```data```. Triggered once func_slid() is fulfilled. Values are passed to ```data```
+- ```slider-done```, parameters: ```data```. Triggered once func_done() is fulfulled. Values are passed to ```data```
