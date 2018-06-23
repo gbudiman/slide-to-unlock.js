@@ -87,9 +87,9 @@ slider_1.set_slid_text('Fully slid...')
 ```
 
 Full list of recommended methods to manipulate object:
-- ```slider_reset()```
-- ```slider_enable(bool)```
-- ```slider_toggle()```
+- ```slider_reset()``` Resets the slider to left
+- ```slider_enable(bool)``` Enable or disable the object. Resets the slider to the left in the process.
+- ```slider_toggle()``` Toggle object
 - ```set_slid_text(string)```
 - ```set_done_text(string)```
 
