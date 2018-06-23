@@ -16,23 +16,107 @@
   </head>
   <body>
     <div class='container'>
-      <div class='col-xs-12 col-md-6 col-lg-4' id='slider-1'></div>
-      <div class='col-xs-12 col-md-6 col-lg-4' id='slider-2'></div>
-      <div class='col-xs-12 col-md-6 col-lg-4' id='slider-3'></div>
-      <div class='col-xs-12 col-md-6 col-lg-4' id='slider-4'></div>
-      <div class='col-xs-12 col-md-6 col-lg-4' id='slider-5'></div>
-      <div class='col-xs-12 col-md-6 col-lg-4' id='slider-6'></div>
-      <div class='col-xs-12 col-md-6 col-lg-4' id='slider-7'></div>
+      <div class="col-xs-12 col-md-6 col-lg-4'">
+        Basic Demo
+        <div id='slider-1'></div>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-4'">
+        Set Custom Message
+        <div id='slider-2'></div>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-4'">
+        Set Custom Function
+        <div id='slider-3'></div>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-4'">
+        Set Custom Event Handler
+        <div id='slider-4'></div>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-4'">
+        Set Start Disabled and Styling Example
+        <button type="button" class="btn btn-primary", id="enable">Toggle</button>
+        <button type="button" class="btn btn-primary", id="reset">Reset</button>
+        <div id='slider-5'></div>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-4'">
+        Size Styling Example
+        <div id='slider-6'></div>
+      </div>
     </div>
 
     <script type='text/javascript'>
       var h = {}
-      var slider_1 = SlideToUnlock.init('#slider-1')
-      var slider_2 = SlideToUnlock.init('#slider-2')
-      var slider_3 = SlideToUnlock.init('#slider-3')
-      var slider_4 = SlideToUnlock.init('#slider-4')
-      var slider_5 = SlideToUnlock.init('#slider-5')
-      var slider_6 = SlideToUnlock.init('#slider-6')
-      var slider_7 = SlideToUnlock.init('#slider-7')
+
+      var slider_1 = SlideToUnlock.init('#slider-1')      
+      var slider_2 = SlideToUnlock.init('#slider-2', h = Object.assign(h, {
+        text_idle: 'Idling...',
+        text_slid: 'Sending Query...',
+        text_done: 'Acknowledged'
+      }))
+
+      var slider_3 = SlideToUnlock.init('#slider-3', h = Object.assign(h, {
+        func_slid: function() {
+          return new Promise((resolve, reject) => {
+            setTimeout(function() {
+              resolve('Alrighty')
+            }, 2000)
+          }) 
+        },
+        func_done: function(h) {
+          return new Promise((resolve, reject) => {
+            console.log('Long running task done')
+
+            resolve(h)
+          })
+        }
+      }))
+
+      var slider_4 = SlideToUnlock.init('#slider-4', h)
+      var timer
+      $(slider_4).on('slider-hit', function(event) {
+        var checkpoint_time = Date.now()
+        timer = setInterval(function() {
+          var delta = Date.now() - checkpoint_time
+          slider_4.set_slid_text('Initiating...' + delta + 'ms')
+        })
+      }).on('slider-slid', function(event, data) {
+        var checkpoint_time = Date.now()
+        clearInterval(timer)
+        timer = setInterval(function() {
+          var delta = Date.now() - checkpoint_time
+          slider_4.set_slid_text(data + ': ' + delta + 'ms')
+        }, 40)
+      }).on('slider-done', function(event, data) {
+        console.log('Setting text')
+        slider_4.set_done_text('Got ' + data)
+        setTimeout(function() {
+          clearInterval(timer)
+        }, 5000)
+      })
+
+
+      var h = {
+        start_disabled: true,
+        style_bg_disabled: '#000', style_color_disabled: '#fff',
+        style_bg_idle: 'green',     style_color_idle: '#fff',
+        style_bg_slid: 'red',    style_color_slid: '#fff',
+        style_bg_done: 'blue',      style_color_done: '#fff'
+      }
+
+      // run this example by typing slider_5.slider_enable() in console
+      var slider_5 = SlideToUnlock.init('#slider-5', h)
+      var slider_6 = SlideToUnlock.init('#slider-6', h = Object.assign(h, {
+        height: 32,
+        font_size: 12,
+        margin_top: -25,
+        start_disabled: false
+      }))
+
+      $('#enable').on('click', function() {
+        $('#slider-5')[0].slider_toggle()
+      })
+      $('#reset').on('click', function() {
+        $('#slider-5')[0].slider_reset()
+      })
     </script>
   </body>

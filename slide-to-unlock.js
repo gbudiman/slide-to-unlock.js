@@ -74,11 +74,20 @@ var SlideToUnlock = function() {
       slider_enable($(this), _val == undefined ? true : _val)
     }
 
+    $(id)[0].slider_toggle = function() {
+      var has_disabled = $(this).find('.slideable').hasClass('disabled')
+      $(this)[0].slider_enable(has_disabled)
+    }
+
     $(id)[0].func_slid = function() {
+      var $this = $(this)
+      $this.trigger('slider-hit')
+
       return new Promise((resolve, reject) => {
         switch_state_to($(this), 'slid')
         if (settings.func_slid) {
           settings.func_slid().then(h => {
+            $this.trigger('slider-slid', h)
             resolve(h)
           })
         } else {
@@ -89,10 +98,15 @@ var SlideToUnlock = function() {
     }
 
     $(id)[0].func_done = function(h) {
+      var $this = $(this)
+
       return new Promise((resolve, reject) => {
         switch_state_to($(this), 'done')
         if (settings.func_done) {
-          settings.func_done(h)
+          settings.func_done(h).then(h => {
+            $this.trigger('slider-done', h)
+            resolve(h)
+          })
         } else {
           resolve(true)
         }
@@ -107,6 +121,14 @@ var SlideToUnlock = function() {
       if (margin_left > 1) {
         slider.css('margin-left', ($this.width() - slider.width() - 2) + 'px')
       }
+    }
+
+    $(id)[0].set_slid_text = function(x) {
+      $(this).find('.slide-text').text(x)
+    }
+
+    $(id)[0].set_done_text = function(x) {
+      $(this).find('.slide-text').text(x)
     }
 
     $(window).on('resize', function() {
@@ -174,7 +196,11 @@ var SlideToUnlock = function() {
   }
 
   var unslide = function(el) {
-    el.css('margin-left', -1 + 'px')
+    //el.css('margin-left', -1 + 'px')
+    el.animate({
+      marginLeft: -1
+    }, 125)
+
     switch_state_to(el.parent().parent(), 'idle')
     callback_executed = false
   }
