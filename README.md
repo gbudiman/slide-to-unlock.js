@@ -60,8 +60,6 @@ var slider_1 = SlideToUnlock.init('#slider-1', {
 ```
 
 Full list of options:
-| Parameter | Default | Description |
-| --------- | ------- | ----------- |
 
 - ```height: h.height || 64,```
 - ```font_size: (h.font_size || 24)```
