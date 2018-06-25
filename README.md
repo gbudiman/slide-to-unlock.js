@@ -4,7 +4,13 @@ Slide To Unlock with Promise. A perfect alternative to Action-Confirm or Action-
 **What's with the Promise?**
 SlideToUnlock keeps the asynchronous nature of Javascript in mind. State transitions are triggered whenever a Promise object is fulfilled (or rejected). This allows asynchronous tasks (such as AJAX requests) easier to modify the object's state.
 
+<img src="https://github.com/gbudiman/slide-to-unlock.js/blob/master/img/basic_usage.png" width="512" />
 # Usage
+
+Requires:
+- **jQuery** (Tested with 3.3.1)
+- **Bootstrap** (Tested with 3.3.7)
+
 ## Including
 Include `jQuery` and `Bootstrap`
 ```html
@@ -30,10 +36,6 @@ Call ```init()``` and pass the DOM referrer
 ```javascript
 var slider_1 = SlideToUnlock.init('#slider-1')
 ```
-
-That's it!
-
-![Basic Usage](https://github.com/gbudiman/slide-to-unlock.js/blob/master/img/basic_usage.png)
 
 # Technical Details
 SlideToUnlock has 4 states:
