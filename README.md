@@ -59,6 +59,8 @@ var slider_1 = SlideToUnlock.init('#slider-1', {
 })
 ```
 
+You can then capture the output of ```func_slid``` using ```.on('slider-slid')``` event. See Events section.
+
 Full list of options:
 
 - ```height: h.height || 64,```
@@ -109,3 +111,6 @@ Full list of events:
 - ```slider-hit```, parameters: ```None```. Triggered when the slider hits the right-edge
 - ```slider-slid```, parameters: ```data```. Triggered once func_slid() is fulfilled. Values are passed to ```data```
 - ```slider-done```, parameters: ```data```. Triggered once func_done() is fulfulled. Values are passed to ```data```
+- ```slider-unslid```, parameters: ```None```. Triggered when the slider moved but does not hit the right-edge
+- ```slider-enabled```, parameters: ```None```. Triggered when the control is enabled
+- ```slider-disabled```, parameters: ```None```. Triggered when the control is disabled
