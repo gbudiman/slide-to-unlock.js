@@ -5,6 +5,7 @@ Slide To Unlock with Promise. A perfect alternative to Action-Confirm or Action-
 SlideToUnlock keeps the asynchronous nature of Javascript in mind. State transitions are triggered whenever a Promise object is fulfilled (or rejected). This allows asynchronous tasks (such as AJAX requests) easier to modify the object's state.
 
 <img src="https://github.com/gbudiman/slide-to-unlock.js/blob/master/img/basic_usage.png" width="512" />
+
 # Usage
 
 Requires:
