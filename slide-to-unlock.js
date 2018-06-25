@@ -173,6 +173,7 @@ var SlideToUnlock = function() {
         mouse_state = 'up'
 
         if (!is_at_end(current_object)) {
+          current_object.trigger('slider-unslid')
           unslide(current_object)
         }
 
@@ -239,9 +240,11 @@ var SlideToUnlock = function() {
       unslide(slideable)
       slideable.addClass('disabled')
       switch_state_to(el, 'disabled')
+      el.trigger('slider-disabled')
     } else {
       slideable.removeClass('disabled')
       switch_state_to(el, 'idle')
+      el.trigger('slider-enabled')
     }
 
     slideable.attr('data-is-enabled', val)

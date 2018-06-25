@@ -92,6 +92,8 @@
         setTimeout(function() {
           clearInterval(timer)
         }, 5000)
+      }).on('slider-unslid', function(event) {
+        console.log('Unslid. Did you change your mind?')
       })
 
 
@@ -105,6 +107,12 @@
 
       // run this example by typing slider_5.slider_enable() in console
       var slider_5 = SlideToUnlock.init('#slider-5', h)
+
+      $(slider_5).on('slider-enabled', function(event) {
+        console.log('This control is now enabled')
+      }).on('slider-disabled', function(event) {
+        console.log('This control is now disabled')
+      })
       var slider_6 = SlideToUnlock.init('#slider-6', h = Object.assign(h, {
         height: 32,
         font_size: 12,
@@ -120,3 +128,4 @@
       })
     </script>
   </body>
+</html>
