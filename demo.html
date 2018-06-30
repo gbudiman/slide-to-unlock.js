@@ -113,12 +113,18 @@
       }).on('slider-disabled', function(event) {
         console.log('This control is now disabled')
       })
+
       var slider_6 = SlideToUnlock.init('#slider-6', h = Object.assign(h, {
         height: 32,
         font_size: 12,
         margin_top: -25,
         start_disabled: false
       }))
+
+      $(slider_6).on('slider-done', function(event) {
+        console.log('ha')
+        slider_6.set_slid_text('<a href="#">Click here</a>', true)
+      })
 
       $('#enable').on('click', function() {
         $('#slider-5')[0].slider_toggle()

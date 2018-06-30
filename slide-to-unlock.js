@@ -87,19 +87,17 @@ var SlideToUnlock = function() {
       if (anchor.attr('data-executed') != 'true'){
         $this.trigger('slider-hit')
         anchor.attr('data-executed', true)
+
         return new Promise((resolve, reject) => {
           switch_state_to($(this), 'slid')
 
-          console.log(anchor.attr('data-executed'))
-
           if (settings.func_slid) {
-            
-            console.log('exec!')
             settings.func_slid().then(h => {
               $this.trigger('slider-slid', h)
               resolve(h)
             })
           } else {
+            $this.trigger('slider-slid', h)
             resolve(true)
           }
         })
@@ -117,6 +115,7 @@ var SlideToUnlock = function() {
             resolve(h)
           })
         } else {
+          $this.trigger('slider-done', h)
           resolve(true)
         }
       })
@@ -132,12 +131,24 @@ var SlideToUnlock = function() {
       }
     }
 
-    $(id)[0].set_slid_text = function(x) {
-      $(this).find('.slide-text').text(x)
+    $(id)[0].set_slid_text = function(x, _html) {
+      var html = _html == undefined ? false : _html
+
+      if (html) {
+        $(this).find('.slide-text').html(x)
+      } else {
+        $(this).find('.slide-text').text(x)
+      }
     }
 
-    $(id)[0].set_done_text = function(x) {
-      $(this).find('.slide-text').text(x)
+    $(id)[0].set_done_text = function(x, _html) {
+      var html = _html == undefined ? false : _html
+
+      if (html) {
+        $(this).find('.slide-text').html(x)
+      } else {
+        $(this).find('.slide-text').text(x)
+      }
     }
 
     $(window).on('resize', function() {
