@@ -68,6 +68,7 @@ var SlideToUnlock = function() {
 
     $(id)[0].slider_reset = function() {
       unslide($(this).find('.slideable'))
+      $(this)[0].slider_enable()
     }
 
     $(id)[0].slider_enable = function(_val) {
@@ -81,20 +82,28 @@ var SlideToUnlock = function() {
 
     $(id)[0].func_slid = function() {
       var $this = $(this)
-      $this.trigger('slider-hit')
+      var anchor = $this.find('.slide-to-unlock-parent')
 
-      return new Promise((resolve, reject) => {
-        switch_state_to($(this), 'slid')
-        if (settings.func_slid) {
-          settings.func_slid().then(h => {
-            $this.trigger('slider-slid', h)
-            resolve(h)
-          })
-        } else {
-          resolve(true)
-        }
-      })
-      
+      if (anchor.attr('data-executed') != 'true'){
+        $this.trigger('slider-hit')
+        anchor.attr('data-executed', true)
+        return new Promise((resolve, reject) => {
+          switch_state_to($(this), 'slid')
+
+          console.log(anchor.attr('data-executed'))
+
+          if (settings.func_slid) {
+            
+            console.log('exec!')
+            settings.func_slid().then(h => {
+              $this.trigger('slider-slid', h)
+              resolve(h)
+            })
+          } else {
+            resolve(true)
+          }
+        })
+      } 
     }
 
     $(id)[0].func_done = function(h) {
@@ -155,7 +164,9 @@ var SlideToUnlock = function() {
 
           if (!callback_executed) {
             callback_executed = true
-            container.func_slid().then(x => container.func_done(x))
+            try {
+              container.func_slid().then(x => container.func_done(x))
+            } catch(err) {}
           }
         } else {
           var fpos = current_object.parent().width() - current_object.width()
@@ -204,6 +215,7 @@ var SlideToUnlock = function() {
 
     switch_state_to(el.parent().parent(), 'idle')
     callback_executed = false
+
   }
 
   var switch_state_to = function(el, target) {
@@ -214,6 +226,7 @@ var SlideToUnlock = function() {
       case 'idle': 
         sub_el.text(sub_el.attr('data-idle'))
         el.css('background-color', el.attr('data-bg-idle'))
+        el.attr('data-executed', false)
         sub_el.css('color', el.attr('data-color-idle')) 
         break
       case 'slid':
@@ -229,6 +242,7 @@ var SlideToUnlock = function() {
       case 'disabled':
         sub_el.text(sub_el.attr('data-disabled'))
         el.css('background-color', el.attr('data-bg-disabled'))
+        el.attr('data-executed', false)
         sub_el.css('color', el.attr('data-color-disabled')) 
         break
     }
